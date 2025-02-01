@@ -6,6 +6,13 @@ module.exports = (io) => {
   io.on("connection", (socket) => {
     socket.on("join", async (event) => {
       const { userId, chatRoomId } = event;
+      if (!userId || !chatRoomId) {
+        io.to(socket.id).emit("error", {
+          message: "Invalid user id or chat room id",
+        });
+        return;
+      }
+
       socket.join(chatRoomId);
       const activeUsers = activeUsersStorage.get(chatRoomId) || [];
       activeUsers.push(userId);
@@ -13,7 +20,28 @@ module.exports = (io) => {
     });
 
     socket.on("message", async (event) => {
-      const { chatRoomId, userId } = event;
+      const { chatRoomId, userId, message, timestamp } = event;
+
+      if (!chatRoomId || !userId) {
+        io.to(socket.id).emit("error", {
+          message: "Invalid user id or chat room id",
+        });
+        return;
+      }
+
+      if (!message) {
+        io.to(socket.id).emit("error", {
+          message: "Message cannot be empty",
+        });
+        return;
+      }
+
+      if (!timestamp) {
+        io.to(socket.id).emit("error", {
+          message: "Timestamp cannot be empty",
+        });
+        return;
+      }
 
       const activeUsers = activeUsersStorage.get(chatRoomId) || [];
 
@@ -22,6 +50,8 @@ module.exports = (io) => {
         io.to(socket.id).emit("error", {
           message: "You are not a member of this chat room",
         });
+
+        return;
       }
 
       const chatRoom = chatStorage.get(chatRoomId) || [];
@@ -34,6 +64,14 @@ module.exports = (io) => {
 
     socket.on("leave", async (event) => {
       const { chatRoomId, userId } = event;
+
+      if (!chatRoomId || !userId) {
+        io.to(socket.id).emit("error", {
+          message: "Invalid user id or chat room id",
+        });
+        return;
+      }
+
       socket.leave(chatRoomId);
 
       const activeUsers = activeUsersStorage.get(chatRoomId);

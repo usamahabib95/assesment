@@ -5,7 +5,7 @@ exports.getActiveUsers = async (req, res) => {
     const { chatRoomId } = req.params;
     const activeUsers = activeUsersStorage.get(chatRoomId);
     if (!activeUsers) {
-      return res.status(404).json({ message: "Active users not found" });
+      return res.status(404).json({ message: "No Active users found" });
     }
 
     return res.status(200).json({ data: activeUsers });
