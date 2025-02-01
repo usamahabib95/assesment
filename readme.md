@@ -39,7 +39,7 @@ The server will run on **http://localhost:3000**.
    ```
 4. Click **Connect**.
 
-5. Navigate to the Events tab in Postman and manually add event listeners for join, message and leave events to receive real-time updates.
+5. Navigate to the Events tab in Postman and manually add event listeners for join, message, leave and error events to receive real-time updates.
 
 ### **Step 2: Join a Chatroom**
 
