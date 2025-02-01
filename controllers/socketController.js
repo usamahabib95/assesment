@@ -28,11 +28,11 @@ module.exports = (io) => {
       socket.leave(chatRoomId);
 
       const activeUsers = activeUsersStorage.get(chatRoomId);
-      const index = activeUsers.indexOf(userId);
+      const index = activeUsers?.indexOf(userId);
       if (index > -1) {
         activeUsers.splice(index, 1);
+        activeUsersStorage.set(chatRoomId, activeUsers);
       }
-      activeUsersStorage.set(chatRoomId, activeUsers);
     });
   });
 };

@@ -19,6 +19,11 @@ exports.getChatHistory = async (req, res) => {
   try {
     const { chatRoomId } = req.params;
     const { limit } = req.query;
+
+    if (limit && (!Number.isInteger(Number(limit)) || limit < 0)) {
+      return res.status(400).json({ message: "Invalid limit" });
+    }
+
     const chatHistory = chatStorage.get(chatRoomId);
 
     if (!chatHistory) {
@@ -29,7 +34,7 @@ exports.getChatHistory = async (req, res) => {
       return res.status(200).json({ data: chatHistory.slice(-limit) });
     }
 
-    return res.status(200).json({ data: chatHistory });
+    return res.status(200).json({ data: chatHistory.slice(-50) });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
