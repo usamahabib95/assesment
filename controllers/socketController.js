@@ -13,7 +13,16 @@ module.exports = (io) => {
     });
 
     socket.on("message", async (event) => {
-      const { chatRoomId } = event;
+      const { chatRoomId, userId } = event;
+
+      const activeUsers = activeUsersStorage.get(chatRoomId) || [];
+
+      const index = activeUsers?.indexOf(userId);
+      if (!(index > -1)) {
+        io.to(socket.id).emit("error", {
+          message: "You are not a member of this chat room",
+        });
+      }
 
       const chatRoom = chatStorage.get(chatRoomId) || [];
       chatRoom.push(event);
