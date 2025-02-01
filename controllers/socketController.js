@@ -1,4 +1,4 @@
-const { chatStorage, activeUsersStorage } = require("../Utils/storage");
+const { chatStorage, activeUsersStorage } = require("../utils/storage");
 
 module.exports = (io) => {
   global.io = io;

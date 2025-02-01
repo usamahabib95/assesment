@@ -1,4 +1,4 @@
-const { chatStorage, activeUsersStorage } = require("../Utils/storage");
+const { chatStorage, activeUsersStorage } = require("../utils/storage");
 
 exports.getActiveUsers = async (req, res) => {
   try {
