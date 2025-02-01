@@ -13,7 +13,6 @@ This project implements a real-time chatroom microservice using **Socket.io** fo
 ### Prerequisites
 
 - Node.js (v14+ recommended)
-- Redis
 
 ### Setup
 
